@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  pgadmin:
+    image: 'dpage/pgadmin4:latest'
+    ports:
+      - "80:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'isaacambi2@gmail.com' 
+      PGADMIN_DEFAULT_PASSWORD: 'Bobocy2006'
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+  postgresql:
+    image: "postgres:15.3"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: isaacambi
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: test
+    volumes:
+      - db-data:/var/lib/postresql/data
+  jupyter:
+    build: ./jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./jupyter:/app
+    entrypoint: 
+      jupyter lab --ip='0.0.0.0' --port=8888 --no-browser --allow-root
+volumes:
+  db-data:
+  pgadmin-data:
+
